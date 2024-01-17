@@ -100,7 +100,7 @@ class BookController {
         const similar = await collections?.books?.aggregate(similarPipeline).toArray() as Book[];
 
         const extractedValues = similar.map((book) => ({
-            title: book.longTitle,
+            title: book.title,
             _id: book._id,
         }));
 
