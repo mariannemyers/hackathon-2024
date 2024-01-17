@@ -4,6 +4,7 @@ import { collections } from '../database.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import getEmbeddings from '../embeddings/index.js';
 
+
 class BookController {
     errors = {
         UNKNOWN_INSERT_ERROR: 'Unable to create book',
@@ -80,6 +81,32 @@ class BookController {
         }
 
         return books[0];
+    }
+
+    public async getSimilar(book: Book) {
+
+        const similarPipeline = [
+            {
+                $vectorSearch: {
+                    queryVector:  book.embeddings,
+                    path: 'embeddings',
+                    numCandidates: 100,       // Number of nearest neighbors to use during the search.
+                    index: 'vectorsearch',
+                    limit: 6,               // Number of documents to return in the results. Value can't exceed the value of numCandidates.
+                }
+            }
+        ];
+
+        const similar = await collections?.books?.aggregate(similarPipeline).toArray() as Book[];
+
+        const extractedValues = similar.map((book) => ({
+            title: book.longTitle,
+            _id: book._id,
+        }));
+
+        // Remove the first value similar doc - it's the same doc.
+        extractedValues.shift();
+        return extractedValues;
     }
 
     public async searchBooks(query: string): Promise<Book[]> {

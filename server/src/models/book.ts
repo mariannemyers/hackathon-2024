@@ -10,6 +10,17 @@ export interface Book {
     year: number;
 
     /**
+     * OpenAI embeddings
+     */
+    embeddings?: Array<number>;
+    // TODO: Make this object match the client
+    similar?: Array<{
+        title: string;
+        _id: string;
+        year?: string;
+    }>;
+
+    /**
      * URL to cover image.
      */
     cover?: string;

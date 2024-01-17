@@ -1,5 +1,6 @@
 import { Book } from "./book";
 import { Review } from "./review";
+import { Similar } from "./similar";
 
 /**
  * Book model as displayed in the UI.
@@ -11,6 +12,7 @@ export class BookView {
     cover?: string;
     available: number;
     totalInventory: number;
+    similar: Array<Similar>;
     reviews: Array<Omit<Review, '_id' | 'bookId'>>;
     authors: Array<{ name: string, _id: string }>;
     genres: string;
@@ -37,5 +39,6 @@ export class BookView {
         this.language = book.language;
         this.bookOfTheMonth = book.bookOfTheMonth || false;
         this.pages = book.pages || 0;
+        this.similar = book.similar;
     }
 }

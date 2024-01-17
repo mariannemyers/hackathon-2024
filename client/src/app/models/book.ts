@@ -1,4 +1,5 @@
 import { Review } from './review';
+import { Similar } from './similar';
 
 /**
  * Book model as returned by the API.
@@ -10,6 +11,12 @@ export interface Book {
     _id: string;
     title: string;
     year: number;
+
+    /**
+     * TODO: remove the OpenAI embeddings in the client.  not necessary.
+     */
+    embeddings?: Array<number>;
+    similar: Array<Similar>;
 
     /**
      * URL to cover image.
