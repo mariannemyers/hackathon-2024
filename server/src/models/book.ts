@@ -14,9 +14,11 @@ export interface Book {
      */
     embeddings?: Array<number>;
     // TODO: Make this object match the client
-    similar?: {
+    similar?: Array<{
         title: string;
-    };
+        _id: string;
+        year?: string;
+    }>;
 
     /**
      * URL to cover image.

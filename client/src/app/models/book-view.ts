@@ -12,7 +12,7 @@ export class BookView {
     cover?: string;
     available: number;
     totalInventory: number;
-    similar: Similar;
+    similar: Array<Similar>;
     reviews: Array<Omit<Review, '_id' | 'bookId'>>;
     authors: Array<{ name: string, _id: string }>;
     genres: string;

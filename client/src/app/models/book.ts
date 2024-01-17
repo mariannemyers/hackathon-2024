@@ -13,10 +13,10 @@ export interface Book {
     year: number;
 
     /**
-     * OpenAI embeddings
+     * TODO: remove the OpenAI embeddings in the client.  not necessary.
      */
     embeddings?: Array<number>;
-    similar: Similar;
+    similar: Array<Similar>;
 
     /**
      * URL to cover image.

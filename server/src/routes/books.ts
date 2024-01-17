@@ -57,7 +57,7 @@ books.get('/:bookId', async (req, res) => {
         return res.status(404).send({message: bookController.errors.NOT_FOUND});
     }
 
-    book.similar = {title: similar.longTitle};
+    book.similar = similar;
     return res.json(book);
 });
 
