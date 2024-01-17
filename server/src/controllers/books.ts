@@ -82,6 +82,26 @@ class BookController {
         return books[0];
     }
 
+    public async getSimilar(book: Book) {
+
+        const similarPipeline = [
+            {
+                $vectorSearch: {
+                    queryVector:  book.embeddings,
+                    path: 'embeddings',
+                    numCandidates: 100,       // Number of nearest neighbors to use during the search.
+                    index: 'vectorsearch',
+                    limit: 2,               // Number of documents to return in the results. Value can't exceed the value of numCandidates.
+                }
+            }
+        ];
+
+        const similar = await collections?.books?.aggregate(similarPipeline).toArray() as Book[];
+
+        // Return the 1st position.  0th position is the same doc.
+        return similar[1];
+    }
+
     public async searchBooks(query: string): Promise<Book[]> {
         const books = await collections?.books?.find(
             {

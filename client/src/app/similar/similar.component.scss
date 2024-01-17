@@ -1,0 +1,35 @@
+.similar-wrapper {
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    margin: 1rem 0;
+    padding: 1rem 0;
+
+
+    border-bottom: 1px solid #ccc;
+}
+
+.similar-content {
+    align-items: flex-start;
+    flex-grow: 3;
+}
+
+.similar-content-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #878787;
+}
+
+.similar-content > p {
+    max-height: 300px;
+    overflow: scroll;
+}
+
+@media screen and (max-width: 550px) {
+    .similar-wrapper {
+        flex-direction: column;
+    }
+}

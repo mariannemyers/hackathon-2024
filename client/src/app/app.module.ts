@@ -31,6 +31,7 @@ import { ReviewComponent } from './review/review.component';
 import { MatTableModule } from '@angular/material/table';
 import { URL } from './config';
 import { AuthorComponent } from './author/author.component';
+import { SimilarComponent } from './similar/similar.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -52,6 +53,7 @@ const allowedDomain = URL.replace(/.*?\:\/\//, "").split(/[\/?]/)[0];
     StarRatingComponent,
     ReviewComponent,
     AuthorComponent,
+    SimilarComponent
   ],
   imports: [
     AppRoutingModule,

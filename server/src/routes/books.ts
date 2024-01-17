@@ -51,11 +51,13 @@ books.get('/:bookId', async (req, res) => {
     }
 
     const book = await bookController.getBook(bookId);
+    const similar = await bookController.getSimilar(book);
 
     if (!book){
         return res.status(404).send({message: bookController.errors.NOT_FOUND});
     }
 
+    book.similar = {title: similar.longTitle};
     return res.json(book);
 });
 

@@ -63,6 +63,20 @@
     </mat-card>
 
     <mat-card class="book-reviews">
+        <h3>More like this...</h3>
+
+        <lms-similar [similar]="book.similar"></lms-similar>
+
+        <!-- <div *ngIf="book.embeddings.length; else noSimilarDocs">
+            <lms-review *ngFor="let review of book.reviews" [review]="review"></lms-review>
+        </div> -->
+
+        <ng-template #noSimilarDocs>
+            <p>No similar documents found!</p>
+        </ng-template>
+    </mat-card>
+
+    <mat-card class="book-reviews">
         <h3>Reviews from Readers</h3>
 
         <div *ngIf="book.reviews.length; else noReviews">
