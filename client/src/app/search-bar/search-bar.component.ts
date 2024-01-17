@@ -16,14 +16,14 @@ export class SearchBarComponent {
   searchType = "fullText";
   searchForm = this.fb.group({
     query: ['', Validators.required],
-    carType: ['', Validators.required]
+    searchType: ['', Validators.required]
   });
 
   constructor(
     private bookService: BookService,
     private fb: FormBuilder,
   ) {
-    this.searchForm.controls.carType.setValue(this.searchType);
+    this.searchForm.controls.searchType.setValue(this.searchType);
 
     this.search(this.searchForm.controls.query).subscribe(
       items => {

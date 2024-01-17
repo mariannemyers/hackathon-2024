@@ -7,8 +7,8 @@
         </mat-form-field>
         <h4>Search Type</h4>
         <mat-form-field>
-        <mat-label>Cars</mat-label>
-        <select matNativeControl formControlName="carType" (ngModelChange)="onChange($event)">
+        <mat-label>Types</mat-label>
+        <select matNativeControl formControlName="searchType" (ngModelChange)="onChange($event)">
             <option value="fullText">Full Text</option>
             <option value="vector">Vector</option>
         </select>
