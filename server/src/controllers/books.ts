@@ -110,6 +110,7 @@ class BookController {
     }
 
     public async searchBooks(query: string): Promise<Book[]> {
+        console.log('searchBooks');
         // Original code
         // const books = await collections?.books?.find(
         //     {
@@ -131,6 +132,26 @@ class BookController {
                 }
             }
         ];
+
+        const books = await collections?.books?.aggregate(aggregationPipeline).toArray() as Book[];
+        return books;
+    }
+
+    public async vectorSearchBooks(query: string): Promise<Book[]>{
+        console.log('vectorSearchBooks');
+        const vector = await getEmbeddings(query);
+        const aggregationPipeline = [
+            {
+                $vectorSearch: {
+                    queryVector:  vector,
+                    path: 'embeddings',
+                    numCandidates: 100,
+                    index: 'vectorsearch',
+                    limit: 100,
+                }
+            }
+        ];
+
         const books = await collections?.books?.aggregate(aggregationPipeline).toArray() as Book[];
         return books;
     }
