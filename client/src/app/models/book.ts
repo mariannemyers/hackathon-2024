@@ -15,6 +15,7 @@ export interface Book {
     /**
      * TODO: remove the OpenAI embeddings in the client.  not necessary.
      */
+    embeddings?: Array<number>;
     similar: Array<Similar>;
 
     /**

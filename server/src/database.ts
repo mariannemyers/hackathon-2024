@@ -7,6 +7,7 @@ import { User } from './models/user';
 
 export const collections: {
     books?: mongodb.Collection<Book>;
+    docs?: mongodb.Collection<Book>;
     authors?: mongodb.Collection<Author>;
     reviews?: mongodb.Collection<Review>;
     users?: mongodb.Collection<User>;
@@ -23,13 +24,16 @@ export async function connectToDatabase(uri?: string) {
 
     const db = client.db(process.env.DATABASE_NAME);
 
-    const booksCollection = db.collection<Book>('books');
+    // MGM: Switch this back to use the original dataset
+    // const booksCollection = db.collection<Book>('books');
+    const booksCollection = db.collection<Book>('docs');
     const authorsCollection = db.collection<Author>('authors');
     const reviewsCollection = db.collection<Review>('reviews');
     const usersCollection = db.collection<User>('users');
     const issueDetailCollection = db.collection<IssueDetail>('issueDetails');
 
     collections.books = booksCollection;
+    //collections.docs = docsCollection;
     collections.authors = authorsCollection;
     collections.reviews = reviewsCollection;
     collections.users = usersCollection;

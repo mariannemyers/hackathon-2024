@@ -84,7 +84,7 @@ class BookController {
     }
 
     public async getSimilar(book: Book) {
-
+        
         const similarPipeline = [
             {
                 $vectorSearch: {
@@ -138,7 +138,8 @@ class BookController {
     }
 
     public async vectorSearchBooks(query: string): Promise<Book[]>{
-        console.log('vectorSearchBooks');
+        console.log('searchBooks');
+
         const vector = await getEmbeddings(query);
         const aggregationPipeline = [
             {
