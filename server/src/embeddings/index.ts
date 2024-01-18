@@ -1,4 +1,5 @@
 import getOpenAiEmbeddings from './openai.js';
+import getAzureOpenAiEmbeddings from './azureopenai.js';
 import getVertexEmbeddings from './googleVertex.js';
 import getServerlessEndpointEmbeddings from './serverlessEndpoint.js';
 import getSageMakerEndpointEmbeddings from './sagemaker.js';
@@ -7,6 +8,8 @@ const EMBEDDINGS_SOURCE = process.env.EMBEDDINGS_SOURCE || 'openai';
 
 async function getTermEmbeddings(query) {
     switch (EMBEDDINGS_SOURCE) {
+    case 'azureopenai':
+        return await getAzureOpenAiEmbeddings(query);
     case 'openai':
         return await getOpenAiEmbeddings(query);
     case 'googleVertex':

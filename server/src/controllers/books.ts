@@ -84,7 +84,7 @@ class BookController {
     }
 
     public async getSimilar(book: Book) {
-
+        
         const similarPipeline = [
             {
                 $vectorSearch: {
@@ -100,7 +100,7 @@ class BookController {
         const similar = await collections?.books?.aggregate(similarPipeline).toArray() as Book[];
 
         const extractedValues = similar.map((book) => ({
-            title: book.longTitle,
+            title: book.title,
             _id: book._id,
         }));
 
@@ -110,13 +110,50 @@ class BookController {
     }
 
     public async searchBooks(query: string): Promise<Book[]> {
-        const books = await collections?.books?.find(
+        console.log('searchBooks');
+        // Original code
+        // const books = await collections?.books?.find(
+        //     {
+        //         $or: [
+        //             {title: {$regex: new RegExp(query, 'i')}},
+        //             {'authors.name': {$regex: new RegExp(query, 'i')}},
+        //         ]
+        //     }).limit(25).toArray();
+        // return books;
+
+        const aggregationPipeline = [
             {
-                $or: [
-                    {title: {$regex: new RegExp(query, 'i')}},
-                    {'authors.name': {$regex: new RegExp(query, 'i')}},
-                ]
-            }).limit(25).toArray();
+                $search: {
+                    index: 'fulltextsearch',
+                    text: {
+                        query,
+                        path: ['title', 'authors.name', 'genres']
+                    }
+                }
+            }
+        ];
+
+        const books = await collections?.books?.aggregate(aggregationPipeline).toArray() as Book[];
+        return books;
+    }
+
+    public async vectorSearchBooks(query: string): Promise<Book[]>{
+        console.log('searchBooks');
+
+        const vector = await getEmbeddings(query);
+        const aggregationPipeline = [
+            {
+                $vectorSearch: {
+                    queryVector:  vector,
+                    path: 'embeddings',
+                    numCandidates: 100,
+                    index: 'vectorsearch',
+                    limit: 100,
+                }
+            }
+        ];
+
+        const books = await collections?.books?.aggregate(aggregationPipeline).toArray() as Book[];
         return books;
     }
 

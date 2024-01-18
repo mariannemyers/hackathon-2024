@@ -13,14 +13,18 @@ export class SearchBarComponent {
   @Output() itemsFound = new EventEmitter<Book[]>();
   itemOptions: Observable<Book[]>;
 
+  searchType = "fullText";
   searchForm = this.fb.group({
     query: ['', Validators.required],
+    searchType: ['', Validators.required]
   });
 
   constructor(
     private bookService: BookService,
     private fb: FormBuilder,
   ) {
+    this.searchForm.controls.searchType.setValue(this.searchType);
+
     this.search(this.searchForm.controls.query).subscribe(
       items => {
         this.itemsFound.next(items);
@@ -33,7 +37,11 @@ export class SearchBarComponent {
       filter(text => text!.length > 1),
       debounceTime(700),
       distinctUntilChanged(),
-      switchMap(searchTerm => this.bookService.search(searchTerm!)),
+      switchMap(searchTerm => this.bookService.search(searchTerm!, this.searchType)),
     );
+  }
+
+  public onChange(val: string) {
+    this.searchType = val;
   }
 }

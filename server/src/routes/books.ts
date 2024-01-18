@@ -3,6 +3,7 @@ import { collections } from '../database.js';
 import { Request as AuthRequest } from 'express-jwt';
 import { protectedRoute, adminRoute } from '../utils/middlewares.js';
 import BookController from '../controllers/books.js';
+import { Book } from '../models/book.js';
 
 // The router will be added as a middleware and will take control of requests starting with /books.
 const books = Router();
@@ -18,13 +19,20 @@ books.get('/', async (req, res) => {
 
 books.get('/search', async (req, res) => {
     const query = (req?.query?.term as string) || undefined;
+    const type = (req?.query?.type as string) || undefined;
+    //console.log('type');
 
     if (!query) {
         return res.status(400).send({message: 'missing query'});
     }
 
-    const books = await bookController.searchBooks(query);
-
+    let books: Book[];
+    if(type === 'fullText') {
+        books = await bookController.searchBooks(query);
+    }
+    else if(type === 'vector') {
+        books = await bookController.vectorSearchBooks(query);
+    }
     return res.json(books);
 });
 
